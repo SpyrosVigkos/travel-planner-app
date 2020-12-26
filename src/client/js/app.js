@@ -1,6 +1,6 @@
 /* Global Variables */
-const url = 'https://api.openweathermap.org/data/2.5/weather?zip=';
-const apiKey = '&units=metric&appid=93ec3247177dbb56166d5141dcdca068';
+const url = ' http://api.geonames.org/searchJSON?q=';
+const apiKey = '&maxRows=1&username=spv89';
 const generate = document.getElementById('generate');
 
 // Create a new date instance dynamically with JS
@@ -48,7 +48,7 @@ generate.addEventListener('click', genFunction)
 
 //Async function to get the inputs and call the api data
 async function genFunction(){
-    zip = document.getElementById("zip").value;
+    let zip = document.getElementById("zip").value;
     const feeling = document.getElementById('feelings').value;
     const apiUrl = url + zip + apiKey;
     getWeatherData(apiUrl)
