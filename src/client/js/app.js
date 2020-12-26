@@ -1,6 +1,5 @@
 /* Global Variables */
-const url = ' http://api.geonames.org/searchJSON?q=';
-const apiKey = '&maxRows=1&username=spv89';
+
 const generate = document.getElementById('generate');
 
 // Create a new date instance dynamically with JS

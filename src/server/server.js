@@ -1,5 +1,5 @@
 // Setup empty JS object to act as endpoint for all routes
-projectData = {};
+let plannerData = {};
 
 // Require Express to run server and routes
 const express = require('express');
@@ -9,6 +9,7 @@ const app = express();
 
 /* Dependencies */
 const bodyParser = require('body-parser');
+require('dotenv').config();
 
 /* Middleware*/
 //Here we are configuring express to use body-parser as middle-ware.
@@ -34,6 +35,10 @@ app.listen(port, function (){
     console.log(`running on localhost: ${port}`);
 });
 
+//API Variables 
+//Geonames Webservices 
+const url = ' http://api.geonames.org/searchJSON?q=';
+const apiKey = `&maxRows=1&username=${process.env.GEONAME_USER}`;
 
 
 // GET route
@@ -42,7 +47,7 @@ app.get('/all', sendData);
 function sendData (request, response) {
 
   console.log("Request sent");
-  response.send(projectData);
+  response.send(plannerData);
 
 };
 
@@ -52,13 +57,13 @@ app.post('/', callBack);
 function callBack(request, response){
   console.log(request.body);
   
-  projectData = {
+  plannerData = {
       temperature : request.body.temperature,
       date : request.body.date,
       feelings : request.body.feelings
   };
-  response.send(projectData);
-  console.log(projectData);
+  response.send(plannerData);
+  console.log(plannerData);
 
 };
 
