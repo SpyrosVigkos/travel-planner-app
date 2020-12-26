@@ -22,7 +22,7 @@
       <div>
         <h2>Let's create your travel plan</h2>
       </div>
-      <form action="" id="create-plan" class="plan-form">
+      <form action="" id="create-plan" class="plan-form" onsubmit="return Client.handleSubmit(event)">
         <div class="place-plan">
           <label for="location">Add the place you like to go:</label>
           <input type="text" name="location" id="loc-input" placeholder="e.g. Madrid" required>
@@ -37,12 +37,12 @@
         </div>
 
         <div class="submission-plan">
-          <input type="submit" value="Start Your Plan" id="submit-btn" onclick="" onsubmit="">
+          <input type="submit" value="Start Your Plan" id="submit-btn" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
         </div>
       </form>
     </section>
 
-    <section class="results">
+    <section class="results" id="planner-results">
       <div class="img-info">
         <img src="" alt="" class="main-img">
       </div>

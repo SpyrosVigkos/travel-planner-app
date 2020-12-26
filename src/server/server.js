@@ -11,6 +11,8 @@ const app = express();
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
+const axios = require('axios');
+
 /* Middleware*/
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -37,21 +39,35 @@ app.listen(port, function (){
 
 //API Variables 
 //Geonames Webservices 
-const url = ' http://api.geonames.org/searchJSON?q=';
-const apiKey = `&maxRows=1&username=${process.env.GEONAME_USER}`;
+const geoUrl = ' http://api.geonames.org/searchJSON?q=';
+const geoApi = `&maxRows=1&username=${process.env.GEONAME_USER}`;
+
+// POSTS routes
+
+////Geoname Posts
+app.post('/geoNames', async(req, res) =>{
+  try {
+    const geoNames = await axios.post(`${geoUrl}${req.body.formPlace}${geoApi}`);
+    const {data} = geoNames;
+    res.send(data);
+
+    plannerData={
+      long : data.lag,
+      lat : data.lat,
+      city: data.name,
+      country: data.countryName,
+      code: data.countryCode
+
+    }
 
 
-// GET route
-app.get('/all', sendData);
+  } catch (error) {
+    console.log(`${error}`)
+  }
+})
 
-function sendData (request, response) {
 
-  console.log("Request sent");
-  response.send(plannerData);
 
-};
-
-// POST route
 app.post('/', callBack);
 
 function callBack(request, response){
@@ -67,3 +83,12 @@ function callBack(request, response){
 
 };
 
+// GET route
+app.get('/all', sendData);
+
+function sendData (request, response) {
+
+  console.log("Request sent");
+  response.send(plannerData);
+
+};

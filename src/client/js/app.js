@@ -1,74 +1,40 @@
-/* Global Variables */
+//Main Form Function
+async function handleSubmit(event) {
+    event.preventDefault()
+    let formPlace = document.getElementById('loc-input').value;
+    
 
-const generate = document.getElementById('generate');
+    fetch('http://localhost:8080/geoNames',{
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Orign": "*",
+        },
+        body: JSON.stringify({formPlace: formPlace}),
+    }).then(async function(){
+        const dataGeoNames = await fetch("http://localhost:8080/all");
+        const GeoNamesJson = await dataGeoNames.json();
+        updateUI(GeoNamesJson);
 
-// Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
-
-// GET Info from Api using async function and 
-export const getWeatherData = async (url) => {
-
-    const request = await fetch(url);
-    console.log(request);
-    try{
-        const weatherData = await request.json();
-        console.log('weather data: ', weatherData);
-        return weatherData;
-    }
-    catch(error){
-        console.log('error', error)
-    }
-}
-
-
-// Async POST to server the landed information from API 
-const postData = async ( url = '', weatherData = {})=>{
-
-    const response = await fetch(url, {
-    method: 'POST', 
-    credentials: 'same-origin', 
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(weatherData), 
-  });
-
-    try {
-      const newData = await response.json();
-      return newData;
-    }catch(error) {
-    console.log('error', error);
-    }
-};
-
-//add event listener to "Generate" button to GET API details 
-generate.addEventListener('click', genFunction)
-
-//Async function to get the inputs and call the api data
-async function genFunction(){
-    let zip = document.getElementById("zip").value;
-    const feeling = document.getElementById('feelings').value;
-    const apiUrl = url + zip + apiKey;
-    getWeatherData(apiUrl)
-    .then((weatherData)=>{
-        postData('/', {temperature: weatherData.main.temp, date: newDate, feelings: feeling})
     })
-    .then(()=>{updateUI()}
-    );
+
+
 }
 
-// Update UI Dynamically 
-const updateUI = async () =>{
-    const request = await fetch('/all');
-    try{
-        const data = await request.json();
-        document.getElementById('date').innerHTML = data.date;
-        document.getElementById('temp').innerHTML = `${data.temperature} &#8451;`;
-        document.getElementById('content').innerHTML = data.feelings;
-    }catch(error){
-        console.log('error',error);
-    };   
-}
+//Update UI Function after calling  
 
-export {genFunction}
+async function updateUI(result){
+    ///Results after successful submission 
+    const planResults = document.getElementById("planner-results");
+    //Show 
+    planResults.style.display = 'flex';
+    //Update place info
+    const cityPlan = document.getElementById('city');
+    const countryPlan = document.getElementById('country');
+    cityPlan.innerHTML = result.city;
+    countryPlan.innerHTML = result.country;
+
+
+}
+export{handleSubmit, updateUI}
