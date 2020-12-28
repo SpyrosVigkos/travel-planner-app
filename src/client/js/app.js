@@ -32,18 +32,21 @@ async function handleSubmit(event) {
         },
         body: JSON.stringify({formPlace: formPlace}),
     }).then(async function(){
-        const dataGeoNames = await fetch("http://localhost:8080/all");
-        const GeoNamesJson = await dataGeoNames.json();
-        updateUI(GeoNamesJson);
+        const dataGeoNames = await fetch("http://localhost:8080/geoNames");
+        const geoNamesJson = await dataGeoNames.json();
+        console.log(`Returning the ${dataGeoNames} `);
+        console.log(`Api json: ${geoNamesJson}`)
+        Client.updateUI(geoNamesJson);
 
     })
+    updateUI();
 
 
 }
 
 //Update UI Function after calling  
 
-async function updateUI(result){
+function updateUI(result){
     ///Results after successful submission 
     const planResults = document.getElementById("planner-results");
     //Show 

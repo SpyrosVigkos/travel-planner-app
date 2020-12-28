@@ -48,6 +48,7 @@ const geoApi = `&maxRows=1&username=${process.env.GEONAME_USER}`;
 app.post('/geoNames', async(req, res) =>{
   try {
     const geoNames = await axios.post(`${geoUrl}${req.body.formPlace}${geoApi}`);
+    
     const {data} = geoNames;
     res.send(data);
 
