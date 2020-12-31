@@ -32,22 +32,25 @@ app.get('/', function (req, res) {
 /* Spin up the server*/
 // Setup Server
 const port = 3010; 
-app.listen(port, function (){
-    console.log('server:');
-    console.log(`running on localhost: ${port}`);
+app.listen(port, function () {
+  console.log('App listening on port 3010!');
 });
 
 //API Variables 
 //Geonames Webservices 
 const geoUrl = ' http://api.geonames.org/searchJSON?q=';
 const geoApi = `&maxRows=1&username=${process.env.GEONAME_USER}`;
+console.log = `my user GEOname is ${process.env.GEONAME_USER}`;
+
 
 // POSTS routes
 
 ////Geoname Posts
-app.post('/geoNames', async(req, res) =>{
+app.get('/geoNames', async(req, res) =>{
   try {
-    const geoNames = await axios.post(`${geoUrl}${req.body.formPlace}${geoApi}`);
+    let newPlace = req.body.formPlace;
+    console.log(`Server Side: ${newPlace}`);
+    const geoNames = await axios.post(`${geoUrl}${newPlace}${geoApi}`);
     
     const {data} = geoNames;
     res.send(data);

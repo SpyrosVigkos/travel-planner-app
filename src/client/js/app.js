@@ -3,8 +3,12 @@ async function handleSubmit(event) {
     event.preventDefault()
     //Input data selectors
     let formPlace = document.getElementById('loc-input').value;
+    console.log("The place is ",formPlace);
     let formStart = document.getElementById('start-date').value;
+    console.log("The department date is ",formStart);
     let formReturn = document.getElementById('return-date').value;
+    console.log("The return date is ",formReturn);
+
 
     //Instances for days' Calculations
     const today = new Date();
@@ -23,7 +27,7 @@ async function handleSubmit(event) {
     console.log(toTripDays + " days to depart");   
 
 
-    fetch('http://localhost:8080/geoNames',{
+    fetch('http://localhost:3010/geoNames',{
         method: "POST",
         mode: "cors",
         headers: {
@@ -32,14 +36,13 @@ async function handleSubmit(event) {
         },
         body: JSON.stringify({formPlace: formPlace}),
     }).then(async function(){
-        const dataGeoNames = await fetch("http://localhost:8080/geoNames");
+        const dataGeoNames = await fetch("http://localhost:3010/geoNames");
         const geoNamesJson = await dataGeoNames.json();
         console.log(`Returning the ${dataGeoNames} `);
         console.log(`Api json: ${geoNamesJson}`)
         Client.updateUI(geoNamesJson);
 
-    })
-    updateUI();
+    }).then(res => updateUI(res));
 
 
 }
