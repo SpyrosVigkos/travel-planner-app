@@ -26,15 +26,33 @@ async function handleSubmit(event) {
     const toTripDays = Math.ceil(toTripTime / (1000 * 60 * 60 * 24));
     console.log(toTripDays + " days to depart");   
 
-
-    fetch('http://localhost:3010/geoNames',{
+    fetch('http://localhost:3010/newTrip',{
         method: "POST",
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Orign": "*",
         },
-        body: JSON.stringify({formPlace: formPlace}),
+        body: JSON.stringify({
+            Location: formPlace,
+            StartDate: startDate,
+            EndDate: endDate,
+            Duration: tripDays,
+            // UntilTrip: toTripDays
+
+        })
+
+    });
+
+
+    fetch('http://localhost:3010/geoNames',{
+        method: "GET",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Orign": "*",
+        }
+        
     }).then(async function(){
         const dataGeoNames = await fetch("http://localhost:3010/geoNames");
         const geoNamesJson = await dataGeoNames.json();

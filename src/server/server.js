@@ -10,6 +10,7 @@ const app = express();
 /* Dependencies */
 const bodyParser = require('body-parser');
 require('dotenv').config();
+const fetch=require('node-fetch');
 
 const axios = require('axios');
 
@@ -32,37 +33,55 @@ app.get('/', function (req, res) {
 /* Spin up the server*/
 // Setup Server
 const port = 3010; 
-app.listen(port, function () {
-  console.log('App listening on port 3010!');
+app.listen(port, ()=> {
+  console.log("App listening on port 3010!");
 });
 
 //API Variables 
 //Geonames Webservices 
 const geoUrl = ' http://api.geonames.org/searchJSON?q=';
 const geoApi = `&maxRows=1&username=${process.env.GEONAME_USER}`;
-console.log = `my user GEOname is ${process.env.GEONAME_USER}`;
+//console.log = `my user GEOname is ${process.env.GEONAME_USER}`;
 
 
 // POSTS routes
+app.post('/newTrip', (req, res)=>{
+  let userData = req.body;
+  let userEntry = {
+    location: userData.Location,
+    startDate:userData.StartDate,
+    endDate: userData.EndDate,
+    tripDuration: userData.Duration,
+    // untilTrip: UntilTrip
+  }
+  plannerData = userEntry;
+  res.send(plannerData);
+})
 
-////Geoname Posts
+//GET 
+
+////Geonames 
 app.get('/geoNames', async(req, res) =>{
+ 
   try {
-    let newPlace = req.body.formPlace;
+    let newPlace = plannerData.location;
     console.log(`Server Side: ${newPlace}`);
-    const geoNames = await axios.post(`${geoUrl}${newPlace}${geoApi}`);
-    
-    const {data} = geoNames;
-    res.send(data);
+    const geoNamesUrl = `${geoUrl}${newPlace}${geoApi}`;
+    console.log(`Geonames url is ${geoNamesUrl}`);  
+    fetch(geoNamesUrl).then(res => res.json()).then(data =>{
+      res.send(data);
+      console.log(`Data from Geoname ${data}`);
+      plannerData = {
+        long : data.lng,
+        lat : data.lat,
+        city: data.name,
+        country: data.countryName,
+        code: data.countryCode
+  
+      }
+      
+    });
 
-    plannerData={
-      long : data.lag,
-      lat : data.lat,
-      city: data.name,
-      country: data.countryName,
-      code: data.countryCode
-
-    }
 
 
   } catch (error) {
@@ -72,20 +91,20 @@ app.get('/geoNames', async(req, res) =>{
 
 
 
-app.post('/', callBack);
+// app.post('/', callBack);
 
-function callBack(request, response){
-  console.log(request.body);
+// function callBack(request, response){
+//   console.log(request.body);
   
-  plannerData = {
-      temperature : request.body.temperature,
-      date : request.body.date,
-      feelings : request.body.feelings
-  };
-  response.send(plannerData);
-  console.log(plannerData);
+//   plannerData = {
+//       temperature : request.body.temperature,
+//       date : request.body.date,
+//       feelings : request.body.feelings
+//   };
+//   response.send(plannerData);
+//   console.log(plannerData);
 
-};
+// };
 
 // GET route
 app.get('/all', sendData);
