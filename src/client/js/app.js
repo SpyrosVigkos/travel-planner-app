@@ -26,7 +26,7 @@ async function handleSubmit(event) {
     const toTripDays = Math.ceil(toTripTime / (1000 * 60 * 60 * 24));
     console.log(toTripDays + " days to depart");   
 
-    fetch('http://localhost:3010/newTrip',{
+    await fetch('http://localhost:3010/newTrip',{
         method: "POST",
         mode: "cors",
         headers: {
@@ -45,7 +45,7 @@ async function handleSubmit(event) {
     });
 
 
-    fetch('http://localhost:3010/geoNames',{
+     fetch('http://localhost:3010/geoNames',{
         method: "GET",
         mode: "cors",
         headers: {
