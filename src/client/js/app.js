@@ -26,6 +26,8 @@ async function handleSubmit(event) {
     const toTripDays = Math.ceil(toTripTime / (1000 * 60 * 60 * 24));
     console.log(toTripDays + " days to depart");   
 
+   
+
     await fetch('http://localhost:3010/newTrip',{
         method: "POST",
         mode: "cors",
@@ -38,14 +40,14 @@ async function handleSubmit(event) {
             StartDate: startDate,
             EndDate: endDate,
             Duration: tripDays,
-            // UntilTrip: toTripDays
+            UntilTrip: toTripDays
 
         })
 
     });
 
 
-     fetch('http://localhost:3010/geoNames',{
+    fetch('http://localhost:3010/geoNames',{
         method: "GET",
         mode: "cors",
         headers: {
@@ -53,14 +55,28 @@ async function handleSubmit(event) {
             "Access-Control-Allow-Orign": "*",
         }
         
-    }).then(async function(){
-        const dataGeoNames = await fetch("http://localhost:3010/geoNames");
-        const geoNamesJson = await dataGeoNames.json();
-        console.log(`Returning the ${dataGeoNames} `);
-        console.log(`Api json: ${geoNamesJson}`)
-        Client.updateUI(geoNamesJson);
+    }).then(async function(res){
+        const geoNamesJson = await res.json();
+        return geoNamesJson;
+        // console.log(`Api json: ${geoNamesJson}`)
+        // Client.updateUI(geoNamesJson);
 
-    }).then(res => updateUI(res));
+    }); //.then(res => updateUI(res));
+
+    fetch('http://localhost:3010/all',{
+        method: "GET",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Orign": "*",
+        }
+    }).then(async function(res){
+        const dataPlanner = await res.json();
+        return dataPlanner;
+       
+        
+        
+    }).then(dataPlanner => updateUI(dataPlanner));
 
 
 }
@@ -68,6 +84,7 @@ async function handleSubmit(event) {
 //Update UI Function after calling  
 
 function updateUI(result){
+    console.log('The result are: ', result)
     ///Results after successful submission 
     const planResults = document.getElementById("planner-results");
     //Show 
@@ -77,9 +94,9 @@ function updateUI(result){
     const countryPlan = document.getElementById('country');
     cityPlan.innerHTML = result.city;
     countryPlan.innerHTML = result.country;
-    const departureDate = getElementById('departure');
+    const departureDate = document.getElementById('departure');
     departureDate.innerHTML = result.startDate;
-    const daysUntilTrip = getElementById('days');
+    const daysUntilTrip = document.getElementById('days');
     daysUntilTrip.innerHTML = result.toTripDays;
 
 

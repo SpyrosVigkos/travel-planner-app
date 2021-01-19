@@ -52,7 +52,7 @@ app.post('/newTrip', (req, res)=>{
     startDate:userData.StartDate,
     endDate: userData.EndDate,
     tripDuration: userData.Duration,
-    // untilTrip: UntilTrip
+    untilTrip: userData.UntilTrip
   }
   plannerData = userEntry;
   res.send(plannerData);
@@ -63,48 +63,34 @@ app.post('/newTrip', (req, res)=>{
 ////Geonames 
 app.get('/geoNames', async(req, res) =>{
  
-  try {
-    let newPlace = plannerData.location;
-    console.log(`Server Side: ${newPlace}`);
-    const geoNamesUrl = `${geoUrl}${newPlace}${geoApi}`;
-    console.log(`Geonames url is ${geoNamesUrl}`);  
-    fetch(geoNamesUrl).then(res => res.json()).then(data =>{
-      res.send(data);
-      console.log(`Data from Geoname ${data}`);
-      plannerData = {
-        long : data.lng,
-        lat : data.lat,
-        city: data.name,
-        country: data.countryName,
-        code: data.countryCode
+  let newPlace = plannerData.location;
+  console.log(`Server Side: ${newPlace}`);
+  const geoNamesUrl = `${geoUrl}${newPlace}${geoApi}`;
+  console.log(`Geonames url is ${geoNamesUrl}`);  
+  fetch(geoNamesUrl).then(res => res.json()).then(data =>{
   
-      }
+    try {
+      res.send(data);
+      console.log(`Data from Geoname`, data);
+      plannerData['long'] = data.geonames[0].lng;
+      plannerData['lat'] = data.geonames[0].lat;
+      plannerData['city'] = data.geonames[0].name;
+      plannerData['country'] = data.geonames[0].countryName;
+      plannerData['code'] = data.geonames[0].countryCode;
       
-    });
+     
+      
+      console.log('Planner data after Geonames: ',plannerData);
 
+      return plannerData; 
+      
+    }catch (e) {
+      console.log("Error: ", e);
+    }
+  })
 
-
-  } catch (error) {
-    console.log(`${error}`)
-  }
 })
 
-
-
-// app.post('/', callBack);
-
-// function callBack(request, response){
-//   console.log(request.body);
-  
-//   plannerData = {
-//       temperature : request.body.temperature,
-//       date : request.body.date,
-//       feelings : request.body.feelings
-//   };
-//   response.send(plannerData);
-//   console.log(plannerData);
-
-// };
 
 // GET route
 app.get('/all', sendData);
