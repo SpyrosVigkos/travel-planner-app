@@ -57,11 +57,15 @@ async function handleSubmit(event) {
         
     });
     
-    const geoNamesJson = await res.json();
-    //    return geoNamesJson;
-    // console.log(`Api json: ${geoNamesJson}`)
-    // Client.updateUI(geoNamesJson);
-
+    //const geoNamesJson = await res.json();
+    res = await fetch('http://localhost:3010/weatherBit',{
+        method: "GET",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Orign": "*",
+        }
+    })
     res = await fetch('http://localhost:3010/all',{
         method: "GET",
         mode: "cors",
@@ -70,12 +74,8 @@ async function handleSubmit(event) {
             "Access-Control-Allow-Orign": "*",
         }
     })
+ 
     const dataPlanner = await res.json();
-       // return dataPlanner;
-       
-        
-        
-    //.then(dataPlanner => updateUI(dataPlanner);
     updateUI(dataPlanner);
 
 
@@ -91,13 +91,23 @@ function updateUI(result){
     planResults.style.display = 'flex';
     //Update place info
     const cityPlan = document.getElementById('city');
-    const countryPlan = document.getElementById('country');
+    const countryPlan = document.getElementById('country'); 
+    // const cityPlanFirst = document.getElementById('city-1');
+    // const countryPlanFirst = document.getElementById('country-1');
     cityPlan.innerHTML = result.city;
     countryPlan.innerHTML = result.country;
+    // cityPlanFirst.innerHTML = result.city;
+    // countryPlanFirst.innerHTML = result.country;
     const departureDate = document.getElementById('departure');
     departureDate.innerHTML = result.startDate;
     const daysUntilTrip = document.getElementById('days');
-    daysUntilTrip.innerHTML = result.toTripDays;
+    daysUntilTrip.innerHTML = result.untilTrip;
+    const highTemp = document.getElementById('high-temp');
+    highTemp.innerHTML =result.maxTemp;
+    const lowTemp = document.getElementById('low-temp');
+    lowTemp.innerHTML = result.minTemp;
+    const weatherCondition = document.getElementById('weather-condition');
+    weatherCondition.innerHTML = result.description;
 
 
 }

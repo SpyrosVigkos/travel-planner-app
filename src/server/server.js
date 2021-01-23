@@ -38,10 +38,15 @@ app.listen(port, ()=> {
 });
 
 //API Variables 
-//Geonames Webservices 
+////Geonames Webservices 
 const geoUrl = ' http://api.geonames.org/searchJSON?q=';
 const geoApi = `&maxRows=1&username=${process.env.GEONAME_USER}`;
-//console.log = `my user GEOname is ${process.env.GEONAME_USER}`;
+
+////Weatherbit - 16 Day Weather Forecast API
+const wBitUrl = 'https://api.weatherbit.io/v2.0/forecast/daily?';
+const wBitApi = `&key=${process.env.Weather_API}`;
+
+
 
 
 // POSTS routes
@@ -77,12 +82,9 @@ app.get('/geoNames', async(req, res) =>{
       plannerData['city'] = data.geonames[0].name;
       plannerData['country'] = data.geonames[0].countryName;
       plannerData['code'] = data.geonames[0].countryCode;
-      
-     
-      
       console.log('Planner data after Geonames: ',plannerData);
 
-      return plannerData; 
+      
       
     }catch (e) {
       console.log("Error: ", e);
@@ -90,7 +92,34 @@ app.get('/geoNames', async(req, res) =>{
   })
 
 })
+////WheatherBit GET
+app.get('/weatherBit', async(req, res) =>{
+  console.log('WeatherBit:');  
+  const wUrl = `${wBitUrl}lat=${plannerData.lat}&lon=${plannerData.long}${wBitApi}`;
 
+
+  console.log(`WeatherBit url is ${wUrl}`);  
+  fetch(wUrl).then(res => res.json()).then(resonse =>{
+  let weatherDay = plannerData.untilTrip;
+  console.log(`Weatherday`, weatherDay);
+  const data = resonse.data[weatherDay];
+  console.log(`Data from WeatherBit`, data);
+    try {
+      
+      
+      plannerData['maxTemp'] = data.max_temp;
+      plannerData['minTemp'] = data.low_temp;
+      plannerData['description'] = data.weather.description;
+      console.log('Planner data after WeatherBit: ',plannerData);
+      res.send(data);
+     
+      
+    }catch (e) {
+      console.log("Error: ", e);
+    }
+  })
+
+})
 
 // GET route
 app.get('/all', sendData);
