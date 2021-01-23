@@ -90,6 +90,15 @@ input    {
     border-radius: 4px;
     margin: 15px;
 }
+#save-btn{
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    background-color: green;
+    font-size: 1.2em;
+    color: white;
+    border: 1px solid green;
+    border-radius: 4px;
+    margin: 15px;
+}
 .main-img{
     max-width: 250px;
     text-align: center;
