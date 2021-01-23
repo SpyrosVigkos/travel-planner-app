@@ -47,7 +47,7 @@ async function handleSubmit(event) {
     });
 
 
-    fetch('http://localhost:3010/geoNames',{
+    let res = await fetch('http://localhost:3010/geoNames',{
         method: "GET",
         mode: "cors",
         headers: {
@@ -55,28 +55,28 @@ async function handleSubmit(event) {
             "Access-Control-Allow-Orign": "*",
         }
         
-    }).then(async function(res){
-        const geoNamesJson = await res.json();
-        return geoNamesJson;
-        // console.log(`Api json: ${geoNamesJson}`)
-        // Client.updateUI(geoNamesJson);
+    });
+    
+    const geoNamesJson = await res.json();
+    //    return geoNamesJson;
+    // console.log(`Api json: ${geoNamesJson}`)
+    // Client.updateUI(geoNamesJson);
 
-    }); //.then(res => updateUI(res));
-
-    fetch('http://localhost:3010/all',{
+    res = await fetch('http://localhost:3010/all',{
         method: "GET",
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Orign": "*",
         }
-    }).then(async function(res){
-        const dataPlanner = await res.json();
-        return dataPlanner;
+    })
+    const dataPlanner = await res.json();
+       // return dataPlanner;
        
         
         
-    }).then(dataPlanner => updateUI(dataPlanner));
+    //.then(dataPlanner => updateUI(dataPlanner);
+    updateUI(dataPlanner);
 
 
 }
