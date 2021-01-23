@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 
 // Cors for cross origin allowance
 const cors = require('cors');
+const { response } = require('express');
 app.use(cors());
 
 // Initialize the main project folder
@@ -46,6 +47,8 @@ const geoApi = `&maxRows=1&username=${process.env.GEONAME_USER}`;
 const wBitUrl = 'https://api.weatherbit.io/v2.0/forecast/daily?';
 const wBitApi = `&key=${process.env.Weather_API}`;
 
+////Pixabay API 
+const pixabayUrl = `https://pixabay.com/api/?key=${process.env.PIXABAY}`;
 
 
 
@@ -97,7 +100,6 @@ app.get('/weatherBit', async(req, res) =>{
   console.log('WeatherBit:');  
   const wUrl = `${wBitUrl}lat=${plannerData.lat}&lon=${plannerData.long}${wBitApi}`;
 
-
   console.log(`WeatherBit url is ${wUrl}`);  
   fetch(wUrl).then(res => res.json()).then(resonse =>{
   let weatherDay = plannerData.untilTrip;
@@ -106,19 +108,33 @@ app.get('/weatherBit', async(req, res) =>{
   console.log(`Data from WeatherBit`, data);
     try {
       
-      
       plannerData['maxTemp'] = data.max_temp;
       plannerData['minTemp'] = data.low_temp;
       plannerData['description'] = data.weather.description;
       console.log('Planner data after WeatherBit: ',plannerData);
       res.send(data);
-     
       
     }catch (e) {
       console.log("Error: ", e);
     }
   })
 
+})
+
+app.get('/pixabay', async(req, res) =>{
+  const pBUrl = `${pixabayUrl}&q=${plannerData.city}+${plannerData.country}&image_type=photo`;
+  console.log('The pixabay url: ', pBUrl);
+  fetch(pBUrl).then(res => res.json()).then(data =>{
+   
+    
+    try {
+      plannerData['imageUrl'] = data.hits[0].webformatURL;
+      res.send(data);
+    }catch (e) {
+      console.log("Error: ", e);
+    }
+  })
+  
 })
 
 // GET route

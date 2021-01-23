@@ -66,6 +66,14 @@ async function handleSubmit(event) {
             "Access-Control-Allow-Orign": "*",
         }
     })
+    res = await fetch('http://localhost:3010/pixabay',{
+        method: "GET",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Orign": "*",
+        }
+    })
     res = await fetch('http://localhost:3010/all',{
         method: "GET",
         mode: "cors",
@@ -85,10 +93,14 @@ async function handleSubmit(event) {
 
 function updateUI(result){
     console.log('The result are: ', result)
+
+    const image = document.getElementById('mainImg');
+    image.setAttribute('src', result.imageUrl);
     ///Results after successful submission 
     const planResults = document.getElementById("planner-results");
     //Show 
-    planResults.style.display = 'flex';
+    planResults.style.display = 'block';
+    //planResults.style.display = 'flex';
     //Update place info
     const cityPlan = document.getElementById('city');
     const countryPlan = document.getElementById('country'); 
