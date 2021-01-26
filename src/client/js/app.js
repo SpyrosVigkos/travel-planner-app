@@ -131,9 +131,19 @@ function updateUI(result){
 
 }
 
+
+//Make the format date (yyyy-mm-dd) 
+////with split() function from 'T' where we take the first Substring | ref: https://www.w3schools.com/jsref/jsref_split.asp
 const dateSplit = (d) => {
     let upDate = d.split('T');
     return upDate[0];
 }
 
-export{handleSubmit, updateUI}
+const deleteBtn = () => {
+
+   // formPlan.rest(); //reset() method resets the values of all elements in a form | ref: https://www.w3schools.com/jsref/met_form_reset.asp
+    location.reload();
+    //planResults.style.display = 'none';
+}
+
+export{handleSubmit, updateUI, dateSplit, deleteBtn}
