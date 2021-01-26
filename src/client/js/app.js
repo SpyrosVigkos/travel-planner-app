@@ -1,3 +1,17 @@
+//Variable Selectors: 
+let image = document.getElementById('mainImg');
+let cityClasses = document.getElementsByClassName('city');
+let countryClasses =document.getElementsByClassName('country');
+let plannerClass = document.getElementsByClassName('travel-planner');
+let departureDate = document.getElementById('departure');
+let daysUntilTrip = document.getElementById('days');
+let highTemp = document.getElementById('high-temp');
+let lowTemp = document.getElementById('low-temp');
+let formPlan = document.getElementById('create-plan');
+let planResults = document.getElementById("planner-results");
+//Hide Results Display 
+planResults.style.display = 'none';
+
 //Main Form Function
 async function handleSubmit(event) {
     event.preventDefault()
@@ -89,38 +103,37 @@ async function handleSubmit(event) {
 
 }
 
-//Update UI Function after calling  
+//Update UI Function after calling server APIs
 
 function updateUI(result){
+    ///Results after successful submission 
     console.log('The result are: ', result)
 
-    const image = document.getElementById('mainImg');
-    image.setAttribute('src', result.imageUrl);
-    ///Results after successful submission 
-    const planResults = document.getElementById("planner-results");
-    //Show 
+    //Show Results 
     planResults.style.display = 'block';
-    //planResults.style.display = 'flex';
-    //Update place info
-    const cityPlan = document.getElementById('city');
-    const countryPlan = document.getElementById('country'); 
-    // const cityPlanFirst = document.getElementById('city-1');
-    // const countryPlanFirst = document.getElementById('country-1');
-    cityPlan.innerHTML = result.city;
-    countryPlan.innerHTML = result.country;
-    // cityPlanFirst.innerHTML = result.city;
-    // countryPlanFirst.innerHTML = result.country;
-    const departureDate = document.getElementById('departure');
-    departureDate.innerHTML = result.startDate;
-    const daysUntilTrip = document.getElementById('days');
+    //disable form 
+    plannerClass[0].style.display = 'none';
+ 
+    //Update place info everywhere 
+    for(var i=0; i < cityClasses.length && i <countryClasses.length ; i++){
+        cityClasses[i].innerHTML = result.city;
+        countryClasses[i].innerHTML = result.country;
+    }   
+    image.setAttribute('src', result.imageUrl);
+    departureDate.innerHTML = dateSplit(result.startDate);
     daysUntilTrip.innerHTML = result.untilTrip;
-    const highTemp = document.getElementById('high-temp');
     highTemp.innerHTML =result.maxTemp;
-    const lowTemp = document.getElementById('low-temp');
+    
     lowTemp.innerHTML = result.minTemp;
     const weatherCondition = document.getElementById('weather-condition');
     weatherCondition.innerHTML = result.description;
 
 
 }
+
+const dateSplit = (d) => {
+    let upDate = d.split('T');
+    return upDate[0];
+}
+
 export{handleSubmit, updateUI}
