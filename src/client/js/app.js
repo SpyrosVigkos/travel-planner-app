@@ -9,8 +9,9 @@ let highTemp = document.getElementById('high-temp');
 let lowTemp = document.getElementById('low-temp');
 let formPlan = document.getElementById('create-plan');
 let planResults = document.getElementById("planner-results");
+let weatherCondition = document.getElementById('weather-condition');
 //Hide Results Display 
-planResults.style.display = 'none';
+//planResults.style.display = 'none';
 
 //Main Form Function
 async function handleSubmit(event) {
@@ -125,7 +126,7 @@ function updateUI(result){
     highTemp.innerHTML =result.maxTemp;
     
     lowTemp.innerHTML = result.minTemp;
-    const weatherCondition = document.getElementById('weather-condition');
+    
     weatherCondition.innerHTML = result.description;
 
 
