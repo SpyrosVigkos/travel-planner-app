@@ -146,3 +146,5 @@ function sendData (request, response) {
   response.send(plannerData);
 
 };
+
+module.exports = app
