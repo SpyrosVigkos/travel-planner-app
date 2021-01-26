@@ -1,4 +1,4 @@
-//Variable Selectors: 
+//Variables Selectors: 
 let image = document.getElementById('mainImg');
 let cityClasses = document.getElementsByClassName('city');
 let countryClasses =document.getElementsByClassName('country');
@@ -10,8 +10,6 @@ let lowTemp = document.getElementById('low-temp');
 let formPlan = document.getElementById('create-plan');
 let planResults = document.getElementById("planner-results");
 let weatherCondition = document.getElementById('weather-condition');
-//Hide Results Display 
-//planResults.style.display = 'none';
 
 //Main Form Function
 async function handleSubmit(event) {
@@ -31,8 +29,8 @@ async function handleSubmit(event) {
     const endDate = new Date(formReturn);
     
     // Calculations reference: https://stackoverflow.com/questions/3224834/get-difference-between-2-dates-in-javascript
-    //const diffTime = Math.abs(date2 - date1);
-    //const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    ////const diffTime = Math.abs(date2 - date1);
+    ///const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const tripTime = Math.abs(endDate - startDate);
     const tripDays = Math.ceil(tripTime / (1000 * 60 * 60 * 24));
     console.log(tripDays + " trip days")
@@ -71,8 +69,6 @@ async function handleSubmit(event) {
         }
         
     });
-    
-    //const geoNamesJson = await res.json();
     res = await fetch('http://localhost:3010/weatherBit',{
         method: "GET",
         mode: "cors",
@@ -121,15 +117,12 @@ function updateUI(result){
         countryClasses[i].innerHTML = result.country;
     }   
     image.setAttribute('src', result.imageUrl);
+    //Update Dates, Days until trip, Temperatures and Weather conditions 
     departureDate.innerHTML = dateSplit(result.startDate);
     daysUntilTrip.innerHTML = result.untilTrip;
     highTemp.innerHTML =result.maxTemp;
-    
     lowTemp.innerHTML = result.minTemp;
-    
     weatherCondition.innerHTML = result.description;
-
-
 }
 
 

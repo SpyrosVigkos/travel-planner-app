@@ -121,6 +121,7 @@ app.get('/weatherBit', async(req, res) =>{
 
 })
 
+////Pixabay GET
 app.get('/pixabay', async(req, res) =>{
   const pBUrl = `${pixabayUrl}&q=${plannerData.city}+${plannerData.country}&image_type=photo`;
   console.log('The pixabay url: ', pBUrl);
@@ -147,4 +148,5 @@ function sendData (request, response) {
 
 };
 
+//Export app for test listening 
 module.exports = app

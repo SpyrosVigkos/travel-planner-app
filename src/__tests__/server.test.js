@@ -1,4 +1,4 @@
-import 'regenerator-runtime/runtime'
+import 'regenerator-runtime/runtime' //ref: https://flaviocopes.com/parcel-regeneratorruntime-not-defined/
 
 const app = require('../server/server.js');
 const supertest = require('supertest');
@@ -13,3 +13,5 @@ describe('Test endpoint', () => {
         done()
     })
 })
+
+//ref: https://zellwk.com/blog/endpoint-testing/

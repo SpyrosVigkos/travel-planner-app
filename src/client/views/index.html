@@ -16,7 +16,10 @@
     <p class="instructions">Add the city, the departure date and the return date. You will see back Weather information,
       and the most important details about your trip. </p>
   </header>
+  <!-- APP START -->
   <div id="app">
+
+    <!-- Form Part Begin -->
     <section class="travel-planner">
       <div>
         <h2>Let's create your travel plan</h2>
@@ -39,8 +42,8 @@
           <input type="submit" value="Start Your Plan" id="submit-btn" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
         </div>
       </form>
-    </section>
-
+    </section>  <!-- Form Part END -->
+      <!-- Results Begins -->
     <section class="results" id="planner-results">
       <div class="img-info">
         <img alt="" class="main-img" id="mainImg">
@@ -61,9 +64,20 @@
         </div>
       </div>
 
-    </section>
-  </div>
-
+    </section>  
+    <!-- Results Ends  -->
+  </div> 
+  <!-- APP END -->
+  <!-- ADD SERVICE WORKERS -->
+  <script>
+    // Check that service workers are supported
+    if ('serviceWorker' in navigator) {
+        // Use the window load event to keep the page load performant
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js');
+        });
+    }
+   </script>
 </body>
 
 </html>
