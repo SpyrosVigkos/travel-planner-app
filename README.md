@@ -10,6 +10,7 @@ Created credential for a Web API from https://openweathermap.org/
 Fetch API along with user's input to get dynamic data for app routes
 Chain Promises to POST to the server the landed information from API and to update the UI 
 Access to HTML elements with JavaScript and set their properties dynamically
+You can Print or Delete the Result with related functions 
 
 
 ## Instructions
@@ -20,3 +21,9 @@ If you are interested in testing your code as you go, you can use `tests.js` as 
 
 ## Project Source 
 That was one of the amazing projects in Udacity.com 
+
+### First Version (0.0.1) Features: 
+- Add Place, Departure & Return Date
+- Get information about the days until the trip 
+- Get Weather Forecast
+- See an image from the place that you will visit.  

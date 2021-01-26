@@ -140,11 +140,9 @@ const dateSplit = (d) => {
     return upDate[0];
 }
 
+//Delete the current result with reload all entire page like refresh browser button 
 const deleteBtn = () => {
-
-   // formPlan.rest(); //reset() method resets the values of all elements in a form | ref: https://www.w3schools.com/jsref/met_form_reset.asp
-    location.reload();
-    //planResults.style.display = 'none';
+     location.reload();
 }
 
 export{handleSubmit, updateUI, dateSplit, deleteBtn}
